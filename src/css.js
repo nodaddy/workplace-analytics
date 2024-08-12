@@ -1,3 +1,9 @@
 // this file has variable definitions for inline css
-export const silverColor = '#F0F0F0';
+// some variables can be made dynamic as per client needs, different value for different clients
+export const silverColor = 'rgb(243, 245, 248)';
+export const iconColor = 'grey';
+export const nonAntTagColor = 'goldenrod';
+export const navigationBarBackgroundColor = 'white';
+export const navigationBarTextColor = 'black';
+export const white = 'white';
 export const lateralViewportDistance = '100px';

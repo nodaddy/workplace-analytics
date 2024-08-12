@@ -1,9 +1,6 @@
 // src/components/Header.js
-import React, { useContext, useState } from 'react';
-import { AppContext } from '../context/AppContext';
-import { sendSignInEmail } from '../firebase/email_password_auth';
-import { lateralViewportDistance, silverColor } from '../css';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useAppContext } from '../context/AppContext';
 
 const Home = () => {
 
@@ -14,51 +11,37 @@ const Home = () => {
     marginBottom: '12px'
   }
 
-  const [tools, setTools] = useState([
-    {
-        displayName: 'Organisational Chart',
-        color: 'orange'
-    },
-    {
-        displayName: 'Leaves',
-        color: '#4285F4'
-    },
-    {
-        displayName: 'My Career',
-        color: '#F4B400'
-    },
-    {
-        displayName: 'Expenses',
-        color: 'skyblue'
-    },
-    {
-        displayName: 'Support Case',
-        color: '#DB4437'
-    }
-  ])
+  const { state, saveSelectedTool } = useAppContext();
+  const {tools} = state;
+  const { currentEmployee } = state;
 
-  const { state } = useContext(AppContext);
-  const { user } = state;
+  useEffect(() => {
+    saveSelectedTool(null);
+  }, []);
+
   return (
-    <div>
-        {JSON.stringify(state?.apiToken)}
+    <div 
+    style={{
+      padding: '20px'
+    }}>
         <h2 style={{
-            textAlign: 'left',
-            padding: `20px ${lateralViewportDistance}`,
+            textAlign: 'right',
             borderRadius: '5px',
-            backgroundColor: silverColor,
-            margin: '0px',
-            fontWeight: '300'
-        }}>Hi, {user?.email.split("@")[0]}</h2>
-        <div style={{
-            padding: lateralViewportDistance,
+            fontWeight: '300',
+        }}>Hi, {currentEmployee?.fullName} &nbsp; </h2>
+<br/>
+<br/>
+
+<h1 align="center" style={{fontWeight: '500', color: 'silver'}}>Feed - Notices and Announcements</h1>
+        {/* <div style={{
+            paddingLeft: lateralViewportDistance,
             display: 'flex',
             justifyContent: 'flex-start',
             flexWrap: 'wrap'
         }}>
             {
                 tools?.map(tool => {
-                    return <Link 
+                    return <Link
                     to={`/${tool.displayName.toLocaleLowerCase().split(" ").join("")}`}
                     style={{
                         textDecoration: 'none',
@@ -78,7 +61,7 @@ const Home = () => {
                     </Link>
                 })
             }
-        </div>
+        </div> */}
     </div>
   );
 };

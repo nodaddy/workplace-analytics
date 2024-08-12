@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { EmailPasswordSignIn, EmailPasswordSignUp, sendSignInEmail } from '../firebase/email_password_auth';
-import { AppContext } from '../context/AppContext';
+import { useAppContext } from '../context/AppContext';
 
 const SignUp = () => { 
 
-const {login, state} = useContext(AppContext);
+const {login, state} = useAppContext();
 const { user } = state;
 
 const onFinish = ({password, username, remember}) => {
@@ -18,7 +18,7 @@ const onFinishFailed = (errorInfo) => {
 };
 
     return(
-        <> 
+        <div style={{zIndex: '99999'}}> 
             <Form
                 name="basic"
                 labelCol={{
@@ -85,6 +85,6 @@ const onFinishFailed = (errorInfo) => {
                 </Button>
                 </Form.Item>
             </Form>
-            </>
+            </div>
 )};
 export default SignUp;

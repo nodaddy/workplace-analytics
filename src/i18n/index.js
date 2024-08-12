@@ -21,7 +21,25 @@ i18n
         translation: {
           description: {
             part1: 'Edit <1>src/App.js</1> and save to reload.',
-            part2: 'Learn React'
+            yourOrgChart: "Your Organizational Chart",
+            manager: 'Manager',
+            loading: 'Loading',
+            apps: 'Apps'
+          },
+          employeeInfo: {
+            workEmail: 'Work Email',
+            workPhone: 'Work Phone',
+            location: 'Location',
+            workAddress: 'Work Address',
+            contactInfo: 'Contact Info.',
+            managersAndDirects: 'Managers and Directs',
+            directs: 'Directs'
+          },
+          tools: {
+            organisationalChart: 'Organisational Chart'
+          },
+          auth: {
+            loginAgain: 'Kindly login again'
           }
         }
       },

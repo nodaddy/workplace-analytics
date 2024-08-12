@@ -1,6 +1,7 @@
 // src/context/AppContext.js
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { API_TOKEN_KEY } from '../Constants';
+import { setLogoutFunction } from '../auth';
 
 const AppContext = createContext();
 
@@ -9,26 +10,53 @@ const AppProvider = ({ children }) => {
     user: null,
     theme: 'light',
     apiToken: sessionStorage.getItem(API_TOKEN_KEY),
-    currentEmployee: null
+    currentEmployee: null,
+    tools: [
+      {
+          displayName: 'Organisational Chart',
+          color: 'orange'
+      },
+      {
+          displayName: 'Leaves',
+          color: '#4285F4'
+      },
+      {
+          displayName: 'Career & Performance',
+          color: '#F4B400'
+      },
+      {
+          displayName: 'Expenses',
+          color: 'skyblue'
+      },
+      // {
+      //     displayName: 'Benefits',
+      //     color: '#DB4437'
+      // }
+    ],
+    selectedTool: null,
     // Add other global states here
   });
 
   const saveCurrentUser = (currentEmployee) => {
-    setState({ ...state, currentEmployee: currentEmployee});
+    setState((prev) => {return { ...prev, currentEmployee: currentEmployee}});
   };
+
+  const saveSelectedTool = (toolName) => {
+    setState((prev) => {return {...prev, selectedTool: toolName}});
+  }
 
   const login = (user) => {
     console.log("login login");
-    setState({ ...state, user: user, apiToken: user.accessToken });
+    setState((prev) => {return { ...prev, user: user, apiToken: user.accessToken }});
     sessionStorage.setItem(API_TOKEN_KEY, user.accessToken);
   };
 
   const logout = () => {
-    setState({ ...state, user: null });
+    setState((prev) => {return { ...prev, user: null, apiToken: null }});
   };
 
   const toggleTheme = () => {
-    setState({ ...state, theme: state.theme === 'light' ? 'dark' : 'light' });
+    setState((prev) => {return { ...prev, theme: state.theme === 'light' ? 'dark' : 'light' }});
   };
 
   // Update sessionStorage whenever the token changes
@@ -40,11 +68,18 @@ const AppProvider = ({ children }) => {
     }
   }, [state.apiToken]);
 
+  useEffect(() => {
+    setLogoutFunction(logout);
+  }, []);
+
   return (
-    <AppContext.Provider value={{ state, login, logout, toggleTheme, saveCurrentUser }}>
+    <AppContext.Provider value={{ state, login, logout, toggleTheme, saveCurrentUser, saveSelectedTool }}>
       {children}
     </AppContext.Provider>
   );
 };
 
-export { AppContext, AppProvider };
+const useAppContext = () => {
+  return useContext(AppContext);
+};
+export { useAppContext, AppProvider };

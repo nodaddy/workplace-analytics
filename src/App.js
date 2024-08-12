@@ -1,8 +1,11 @@
-import { useContext, useEffect } from 'react';
-import { AppContext, AppProvider } from './context/AppContext';
+import { useEffect } from 'react';
+import { useAppContext } from './context/AppContext';
 import AppRoutes from './routes';
-import { useEmployeeApi } from './services/orgChart';
+import { getEmployeeByEmail } from './services/employeeService';
 import i18n from './i18n';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Toast from './components/Toast';
 
 const lngs = {
     en: { nativeName: 'English' },
@@ -10,19 +13,24 @@ const lngs = {
   };
 
 const App = () => {
-  const [getEmployeeByEmail] = useEmployeeApi();
-  const {state} = useContext(AppContext);
+  const {state, saveCurrentUser} = useAppContext();
 
   useEffect(() => { 
-      console.log('component mounterd');
       if(state.apiToken){
-          getEmployeeByEmail(null);
+          getEmployeeByEmail(null, state.apiToken).then(res => {
+            saveCurrentUser(res.data);
+          }).catch((err)=>{
+            Toast.error(err)
+          });
       }
   }, [state.apiToken]);
 
   return (
     <>
       <AppRoutes />
+
+      <ToastContainer />
+
       <button style={{
         position: 'absolute',
         bottom: '0px',

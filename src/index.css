@@ -3,9 +3,18 @@ body {
   font-family: 'Roboto';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  width: 85vw;
-  position: absolute;
+  /* width: 100vw; */
+  min-height: 100vh;
+  position: relative;
   right: 0px;
+  background: linear-gradient(white, rgb(243, 245, 248), rgb(243, 245, 248));
+  background-repeat: no-repeat;
+  background-size: 100%;
+  /* background-color: rgb(243, 245, 248); */
+  /* background-image: url(https://cdn.pixabay.com/photo/2023/08/12/02/50/leaves-8184621_1280.png); 
+  background-repeat: no-repeat;
+  background-size: cover; */
+  color: grey;
 }
 
 code {
@@ -14,7 +23,7 @@ code {
 }
 
 *:hover{
-  outline-color: red !important;
+  /* outline-color: red !important; */
 }
 
 .employee-card:hover{
@@ -22,9 +31,10 @@ code {
 }
 
 hr {
-  border: 1px solid #F0F0F0;
+  border: 1px solid #d4d4d4;
 }
 
 b {
   font-weight: 600;
 }
+

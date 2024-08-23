@@ -1,10 +1,35 @@
-import axios from "axios";
 import { BASE_URL } from "../Constants";
 import axiosInstance from "../axiosInstance";
 
   const getEmployeeByEmail = async (email, apiToken) => {
     return axiosInstance.post(`${BASE_URL}/api/employees/getemployee`, {
-      id: email
+      email: email
+    }, {
+        headers: {
+            "Authorization": `Bearer ${apiToken}`,
+            "Content-Type": "application/json"
+        }
+    })
+  };
+
+  const updateMultipleEmployeesWithSameData = async (employees, data, apiToken) => {
+    console.log(employees);
+    return axiosInstance.post(`${BASE_URL}/api/employees/updatemultipleemployeesRoles`, {
+      listOfEmployeeEmails: employees,
+      data: data
+    }, {
+        headers: {
+            "Authorization": `Bearer ${apiToken}`,
+            "Content-Type": "application/json"
+        }
+    })
+  }
+
+
+  const postEmployeesInbulk = async (employees, apiToken) => {
+    return axiosInstance.post(`${BASE_URL}/api/employees/postemployeesinbulk`, {
+      employees: employees,
+      companyId: localStorage.getItem('companyhris')
     }, {
         headers: {
             "Authorization": `Bearer ${apiToken}`,
@@ -14,5 +39,7 @@ import axiosInstance from "../axiosInstance";
   };
 
 export {
-  getEmployeeByEmail
+  getEmployeeByEmail,
+  postEmployeesInbulk,
+  updateMultipleEmployeesWithSameData
 }

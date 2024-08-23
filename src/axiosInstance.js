@@ -4,6 +4,7 @@ import { useAppContext } from './context/AppContext';
 import { logout } from './auth';
 import Toast from './components/Toast';
 import { t } from 'i18next';
+import { message } from 'antd';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
@@ -17,7 +18,7 @@ axiosInstance.interceptors.response.use(
     // If the response has an error status code
     if (error.response && error.response.status === 401) {
       // Call the logout function
-      Toast.warn(t('auth.loginAgain'));
+      message.warning(t('auth.loginAgain'));
       setTimeout(() => {
         logout();
       }, [2000]);

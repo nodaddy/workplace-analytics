@@ -36,7 +36,8 @@ i18n
             directs: 'Directs'
           },
           tools: {
-            organisationalChart: 'Organisational Chart'
+            organisationalChart: 'Organisational Chart',
+            leaves: 'Leaves'
           },
           auth: {
             loginAgain: 'Kindly login again'

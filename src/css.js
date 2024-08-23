@@ -7,3 +7,11 @@ export const navigationBarBackgroundColor = 'white';
 export const navigationBarTextColor = 'black';
 export const white = 'white';
 export const lateralViewportDistance = '100px';
+export const errorColor = "#dc3545";
+export const successColor = "#28a745 ";
+export const infoColor = "#1677ff";
+
+
+// banners
+export const orgchartBannerColor = "#1677ff";
+export const leavesBannerColor =  "#1677ff" ;

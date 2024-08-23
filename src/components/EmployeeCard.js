@@ -1,6 +1,6 @@
-import { Card, Tooltip } from "antd";
-import { iconColor, nonAntTagColor, silverColor, tagColor, white } from "../css";
-import { MailOutlined, PhoneOutlined, ProjectOutlined, TeamOutlined } from "@ant-design/icons";
+import { Alert, Avatar, Card, Tooltip, message } from "antd";
+import { iconColor, infoColor, nonAntTagColor, silverColor, tagColor, white } from "../css";
+import { MailFilled, MailOutlined, PhoneOutlined, ProjectOutlined, TeamOutlined } from "@ant-design/icons";
 import { useContext } from "react";
 import { OrgChartContext } from "../context/OrgChartContext";
 import { getEmployeeByEmail } from "../services/employeeService";
@@ -8,7 +8,7 @@ import { useAppContext } from "../context/AppContext";
 import { getDirectReportsByEmail } from "../services/directReportsService";
 import Toast from "./Toast";
 
-function EmployeeCard({employee, highlight, manager, t}) {
+function EmployeeCard({employee, manager, t}) {
     const iconStyle = {
         color: iconColor
     }
@@ -19,16 +19,7 @@ function EmployeeCard({employee, highlight, manager, t}) {
 
     const onClick = () => {
         setFlyOutForEmployeeInfo(true);
-        saveSelectedEmployeeWithFullInfo({
-          employeeType: null,
-          jpbTitle: null,
-          fullName: null,
-          employeeId: null,
-          location: null,
-          department: null,
-          email: null,
-          managerEmail: null
-      });
+        saveSelectedEmployeeWithFullInfo({});
         getEmployeeByEmail(employee?.email, state.apiToken).then(res => {
             if(state.currentEmployee){
                 getDirectReportsByEmail(res.data?.email, state.apiToken).then(res2 => {
@@ -38,7 +29,7 @@ function EmployeeCard({employee, highlight, manager, t}) {
                 })
             }
         }).catch((err) => {
-            Toast.error(err);
+            message.error(err.message);
         })
     }
     return   <Tooltip title={employee?.email}>
@@ -54,7 +45,8 @@ function EmployeeCard({employee, highlight, manager, t}) {
               cursor: 'pointer',
               paddingLeft:'10px',
               marginBottom: '20px',
-              boxShadow: '0px'
+              boxShadow: '0px',
+              paddingTop: manager ? '8px' : 'auto'
             }}>
                 
               <div
@@ -63,23 +55,45 @@ function EmployeeCard({employee, highlight, manager, t}) {
                 justifyContent: 'space-around'
               }}
               >
-                {/* <img src="https://picsum.photos/seed/picsum/200/300" style={{
-                width: '50px',
-                height: '50px',
-                borderRadius: '50%',
-                marginRight: '10px'
-              }}></img> */}
-              <span>
-              {manager ? <><span style={{fontSize: '11px', padding: '3px 8px', background: nonAntTagColor, color: white, borderRadius: '999px', marginBottom: '20px'}}>{t('description.manager')}</span><br/></> : null}
+                <span style={{}}>
+                   <Avatar
+                   src={employee.image}
+        style={{
+          backgroundColor: silverColor,
+          color: 'grey',
+          marginRight: '10px',
+          width: '33px',
+          height: '33px',
+        }}
+      >
 
-                <span style={{fontSize: '18px', ...overflowCSS}}>{employee?.fullName}</span>
+        {employee?.firstName.charAt(0) + employee?.lastName.charAt(0)}
+      </Avatar>
+      <br/>
+
+      {employee.email == state.currentEmployee.email ? <>
+      {/* <span style={{fontSize: '11px', padding: '3px 8px', background: infoColor, color: white, borderRadius: '999px', marginBottom: '20px'}}>{t('You')}</span> */}
+      <Alert style={{padding: '1px 5px', fontSize: '12px', display:'inline-block', marginTop: '5px'}} message={t('You')} type="info" />
+      <br/></> : null}
+
+</span>
+
+              <span>
+              
+
+                <span style={{fontSize: '18px', ...overflowCSS}}>{employee?.firstName + " " + employee?.lastName} 
+                {manager ? <>
+              <Alert style={{padding: '1px 10px', fontSize: '12px'}} message={t('description.manager')} type="warning" />
+              {/* <span style={{fontSize: '11px', padding: '3px 8px', background: infoColor, color: white, borderRadius: '999px', marginBottom: '20px'}}>{t('description.manager')}
+              </span> */}</> : null}
+                </span>
                 <br/>
                
                   <span style={{fontSize: '12px', ...overflowCSS}}><ProjectOutlined style={iconStyle}/> {employee?.jobTitle}</span>
                  
-                <br/>
-                <span style={{fontSize: '12px', color: 'grey', ...overflowCSS}}><TeamOutlined style={iconStyle}/> {employee?.department }</span>                
-                {/* {manager ? <><br/><MailOutlined style={iconStyle} /> <span style={{fontSize: '12px'}}>{employee?.email }</span></> : null} */}
+                
+                {/* <span style={{fontSize: '12px', color: 'grey', ...overflowCSS}}><MailOutlined style={iconStyle}/> {employee?.email }</span>                 */}
+                {manager ? <><br/><MailOutlined style={{...iconStyle, marginBottom: '12px'}} /> <span style={{fontSize: '12px'}}>{employee?.email }</span></> : null}
               
               </span>
               </div>

@@ -1,13 +1,17 @@
 // src/context/AppContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { API_TOKEN_KEY } from '../Constants';
+import { ADMIN_EMAIL_SUBSTRING, API_TOKEN_KEY } from '../Constants';
 import { setLogoutFunction } from '../auth';
 
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [state, setState] = useState({
-    user: null,
+    careerAndPerformance: {
+      performanceCycle: null,
+      cyclePeriod: null,
+    },
+    isAdmin: null,
     theme: 'light',
     apiToken: sessionStorage.getItem(API_TOKEN_KEY),
     currentEmployee: null,
@@ -29,6 +33,25 @@ const AppProvider = ({ children }) => {
           color: 'skyblue'
       },
       // {
+      //   displayName: 'Payroll',
+      //   color: 'skyblue'
+      // },
+      // {
+      //     displayName: 'Benefits',
+      //     color: '#DB4437'
+      // }
+    ],
+    adminTools: [
+      {
+          displayName: 'Company Profile',
+      },
+      {
+          displayName: 'Employees Directory',
+      },
+      {
+          displayName: 'Assign Roles',
+      }
+      // {
       //     displayName: 'Benefits',
       //     color: '#DB4437'
       // }
@@ -37,8 +60,17 @@ const AppProvider = ({ children }) => {
     // Add other global states here
   });
 
+  const saveCareerAndPerformanceState = (careerAndPerformance) => {
+    setState((prev) => {return { ...prev, careerAndPerformance: careerAndPerformance}});
+  };
+
   const saveCurrentUser = (currentEmployee) => {
-    setState((prev) => {return { ...prev, currentEmployee: currentEmployee}});
+    console.log(currentEmployee);
+    const isAdmin = currentEmployee.email.includes(ADMIN_EMAIL_SUBSTRING);
+
+    console.log(isAdmin);
+
+    setState((prev) => {return { ...prev, currentEmployee: currentEmployee, isAdmin: isAdmin }});
   };
 
   const saveSelectedTool = (toolName) => {
@@ -47,7 +79,9 @@ const AppProvider = ({ children }) => {
 
   const login = (user) => {
     console.log("login login");
-    setState((prev) => {return { ...prev, user: user, apiToken: user.accessToken }});
+    console.log(user);
+    const isAdmin = user.email.includes(ADMIN_EMAIL_SUBSTRING);
+    setState((prev) => {return { ...prev, apiToken: user.accessToken, isAdmin: isAdmin }});
     sessionStorage.setItem(API_TOKEN_KEY, user.accessToken);
   };
 
@@ -73,7 +107,7 @@ const AppProvider = ({ children }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ state, login, logout, toggleTheme, saveCurrentUser, saveSelectedTool }}>
+    <AppContext.Provider value={{ state, login, logout, toggleTheme, saveCurrentUser, saveSelectedTool, saveCareerAndPerformanceState }}>
       {children}
     </AppContext.Provider>
   );

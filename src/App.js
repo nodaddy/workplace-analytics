@@ -5,7 +5,7 @@ import { getEmployeeByEmail } from './services/employeeService';
 import i18n from './i18n';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Toast from './components/Toast';
+import { message } from 'antd';
 
 const lngs = {
     en: { nativeName: 'English' },
@@ -20,7 +20,7 @@ const App = () => {
           getEmployeeByEmail(null, state.apiToken).then(res => {
             saveCurrentUser(res.data);
           }).catch((err)=>{
-            Toast.error(err)
+            message.error(err.message)
           });
       }
   }, [state.apiToken]);
@@ -29,15 +29,15 @@ const App = () => {
     <>
       <AppRoutes />
 
-      <ToastContainer />
+      <ToastContainer position="top-right" />
 
-      <button style={{
+      {/* <button style={{
         position: 'absolute',
         bottom: '0px',
         right: '0px'
       }} onClick={() => {
         i18n.changeLanguage(Object.keys(lngs)[1])
-      }}>change lang </button>
+      }}>change lang </button> */}
     </>
 )};
 

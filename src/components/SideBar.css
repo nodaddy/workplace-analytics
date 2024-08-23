@@ -1,3 +1,4 @@
 .sidebar-menu-item:hover { 
-    background-color: rgb(248, 248, 248) !important;
+    /* background-color: rgb(248, 248, 248) !important; */
+    border: 1px solid #E0E0E0 !important;
 }

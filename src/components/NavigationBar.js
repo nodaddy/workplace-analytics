@@ -1,7 +1,6 @@
 import { BellOutlined, UserOutlined } from "@ant-design/icons";
 import { navigationBarBackgroundColor, silverColor, white } from "../css";
 import { useAppContext } from "../context/AppContext";
-import { Tag } from "antd";
 
 function Navigationbar() {
   const { state } = useAppContext();
@@ -12,7 +11,7 @@ function Navigationbar() {
         borderRadius: '50%',
         backgroundColor: white,
         fontSize: '18px',
-        cursor: 'pointer'
+        cursor: 'pointer',
     }
 
     return ( 
@@ -20,12 +19,13 @@ function Navigationbar() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            width: '100%',
-            position: 'fixed',
-            left: '0px',
-            borderBottom: '2px solid '+ silverColor,
+            width: '100vw',
+            position: 'relative',
+            right: '0px',
+            borderBottom: '1px solid '+ 'silver',
             backgroundColor: navigationBarBackgroundColor,
-            zIndex: 999
+            zIndex: 999,
+            // marginBottom: '25px',
         }}>
             <span style={{padding: '20px'}}>CORE 
             {/* {
@@ -34,10 +34,19 @@ function Navigationbar() {
             null
             } */}
             </span>
-            <span style={{padding: '20px'}}>
-                <BellOutlined style={iconStyle}/>
-                <><UserOutlined style={iconStyle} /></>
-            </span>
+
+            <div style={{position: 'absolute', right: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center', top: '26px'}}>
+                        <img src="https://imgv3.fotor.com/images/slider-image/A-clear-image-of-a-woman-wearing-red-sharpened-by-Fotors-image-sharpener.jpg" style={{
+                            width: '60px',
+                            height: '60px',
+                            borderRadius: '50%',
+                            cursor: 'pointer',
+                            border: '4px solid white',
+                            outline: '1px solid gray',
+                            backgroundColor: white,
+                            objectFit: 'cover',
+                        }} />
+                    </div>
         </div>
      );
 }

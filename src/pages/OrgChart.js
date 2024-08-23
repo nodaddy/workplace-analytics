@@ -1,14 +1,16 @@
-import { Drawer, Input, Tag } from "antd";
+import { Drawer, Input, Popover, Tag, message } from "antd";
 import OrgChartFC from "../components/OrgChartFC";
 import { useContext, useEffect, useState, useTransition } from "react";
 import { useAppContext } from "../context/AppContext";
 import { getDirectReportsByEmail } from "../services/directReportsService";
 import { OrgChartContext, OrgChartProvider } from "../context/OrgChartContext";
-import { silverColor } from "../css";
+import { silverColor} from "../css";
 import { t } from "i18next";
 import { getEmployeeByEmail } from "../services/employeeService";
 import Spinner from "../components/Spinner";
 import Toast from "../components/Toast";
+import ToolBanner from "../components/ToolBanner";
+import { ApartmentOutlined, EditOutlined, EditTwoTone, PrinterOutlined, PrinterTwoTone, SettingOutlined } from "@ant-design/icons";
 
 function OrgChart() {
     const {state, saveSelectedTool} = useAppContext();
@@ -21,7 +23,8 @@ function OrgChart() {
     const {
         employeeType,
         jobTitle,
-        fullName,
+        firstName,
+        lastName,
         employeeId, 
         location,
         department,
@@ -39,7 +42,7 @@ function OrgChart() {
             getDirectReportsByEmail(state.currentEmployee?.managerEmail, state.apiToken).then(res => {
                     setListOfDirectReports(res.data);
             }).catch(()=>{
-                Toast.error("Something went wrong fetching the directs");
+                message.error("Something went wrong fetching the directs");
             })
         }
     }, [state.currentEmployee]);
@@ -49,7 +52,8 @@ function OrgChart() {
         saveSelectedEmployeeWithFullInfo({
                 employeeType: null,
                 jpbTitle: null,
-                fullName: null,
+                firstName: null,
+                lastName: null,
                 employeeId: null,
                 location: null,
                 department: null,
@@ -58,9 +62,24 @@ function OrgChart() {
             })
     };
 
-    return ( <>
+    return ( <div id="orgchartpage">
+                <ToolBanner icon={<ApartmentOutlined />} title={t('tools.organisationalChart')} subTitle={'See organisational information'} />
+                
+                    <div align="right" style={{margin: '0px 40px', cursor: 'pointer'}}>
+                    <Popover placement="left" content={
+                    <div style={{width: '150px'}}>
+                       <span style={{cursor: 'pointer'}}> <PrinterTwoTone />&nbsp; Print Chart </span>
+                       <br/>
+                       <span style={{cursor: 'pointer'}}> <EditTwoTone />&nbsp;  Edit Chart </span>
+
+                    </div>
+                }>
+                      <SettingOutlined size={'large'} /> &nbsp;Options
+                        </Popover>
+                    </div>
+              
                 <OrgChartFC employee={state.currentEmployee} listOfDirectReports={listOfDirectReports} />
-                <Drawer width={'40%'} style={{padding: '3px'}} onClose={() => {
+                <Drawer placement="right" width={'35%'} style={{padding: '3px'}} onClose={() => {
                     setFlyOutForEmployeeInfo(false);
                 }} open={orgChartState.flyOutForEmployeeInfo}>
                     {
@@ -74,7 +93,7 @@ function OrgChart() {
                         }}></img>
                         <br/>
                         <br/>
-                        <span style={{fontSize: '22px'}}>{fullName}</span>
+                        <span style={{fontSize: '22px'}}>{firstName}</span>
                         <br/>
                         <span style={{fontSize: '15px'}}>{jobTitle}</span>
 
@@ -103,13 +122,14 @@ function OrgChart() {
                                 <br/>
                                 <br/>
                                 </span>
-                                <span>
+                                {/* <span>
                                 <b>{t('employeeInfo.workAddress')}</b>
                                 <br/>
+                                {state.company.companyAddress}
                                 {location?.streetAddress}
                                 <br/>
                                 {location?.city}, {location?.state}
-                                </span>
+                                </span> */}
                             </div>
                         </div>
 
@@ -135,7 +155,7 @@ function OrgChart() {
                                                             saveSelectedEmployeeWithFullInfo({...res.data});
                                                         })
                                                 }).catch((err) => {
-                                                    Toast.error(err);
+                                                    message.error(err.message);
                                                 })
                                             }}>
                                                 {managerEmail}
@@ -161,10 +181,10 @@ function OrgChart() {
                                                             saveSelectedEmployeeWithFullInfo({...res.data});
                                                         })
                                                 }).catch((err) => {
-                                                    Toast.error(err);
+                                                    message.error(err.message);
                                                 })
                                             }}>
-                                                {direct.fullName}
+                                                {direct.firstName} {direct.lastName}
                                             </Tag>  
                                             </>)
                                         })
@@ -181,8 +201,9 @@ function OrgChart() {
                     <Spinner text={drawerLoadingFor}/>
                     }       
                 </Drawer>
-
-            </> );
+<br/>
+<br/>
+            </div> );
 }
 
 export default OrgChart;

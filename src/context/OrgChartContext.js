@@ -7,8 +7,9 @@ const OrgChartProvider = ({ children }) => {
   const [orgChartState, setOrgChartState] = useState({
     selectedEmployeeWithFullInfo: {
         employeeType: null,
-        jpbTitle: null,
-        fullName: null,
+        jobTitle: null,
+        firstName: null,
+        lastName: null,
         employeeId: null,
         location: null,
         department: null,

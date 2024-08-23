@@ -11,20 +11,14 @@ function OrgChartFC(props) {
     return ( 
       <div 
       style={{
-        backgroundColor: silverColor,
-        margin: 'auto',
-        width: '85vw',
-        minHeight: '90vh',
-        position: 'absolute',
-        right: '0px'
+        // backgroundColor: silverColor,
+        margin: '0px',
+        width: '100vw',
+        left: '0px',
+        position: 'relative',
       }}>
         {
           listOfDirectReports ? <>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
         {employee &&  <div
         style={{ display: 'flex',
         flexDirection: 'row',
@@ -36,14 +30,15 @@ function OrgChartFC(props) {
            {listOfDirectReports.find(x => x.email == employee.managerEmail).fullName}</h2> */}
           <EmployeeCard employee={listOfDirectReports?.find(x => x.email == employee.managerEmail)} manager={true} t={t} />
         </div> } 
-        <hr/>
         <br/> 
         <div style={{ 
           display: 'flex',
           flexDirection: 'row',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          margin: '0px 30px'
+          margin: '0px 30px',
+          borderTop: '1px solid ' + 'rgb(230, 230, 230)',
+          paddingTop: '40px'
         }}
         >
           {listOfDirectReports.map(direct => {
@@ -53,7 +48,7 @@ function OrgChartFC(props) {
         </div>
         </> 
         :
-        <Spinner text={t('tools.organisationalChart')} />
+        <Spinner height={'50vh'} text={t('tools.organisationalChart')} />
         }
     </div>
      );

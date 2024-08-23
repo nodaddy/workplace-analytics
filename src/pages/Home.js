@@ -12,7 +12,7 @@ const Home = () => {
   }
 
   const { state, saveSelectedTool } = useAppContext();
-  const {tools} = state;
+  const {isAdmin} = state;
   const { currentEmployee } = state;
 
   useEffect(() => {
@@ -28,40 +28,12 @@ const Home = () => {
             textAlign: 'right',
             borderRadius: '5px',
             fontWeight: '300',
-        }}>Hi, {currentEmployee?.fullName} &nbsp; </h2>
+        }}>Hi, {currentEmployee?.firstName} &nbsp; </h2>
 <br/>
 <br/>
 
 <h1 align="center" style={{fontWeight: '500', color: 'silver'}}>Feed - Notices and Announcements</h1>
-        {/* <div style={{
-            paddingLeft: lateralViewportDistance,
-            display: 'flex',
-            justifyContent: 'flex-start',
-            flexWrap: 'wrap'
-        }}>
-            {
-                tools?.map(tool => {
-                    return <Link
-                    to={`/${tool.displayName.toLocaleLowerCase().split(" ").join("")}`}
-                    style={{
-                        textDecoration: 'none',
-                        marginBottom: '40px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        marginRight: '85px',
-                        maxWidth: '100px',
-                        cursor: 'pointer',
-                        color: 'black',
-                        fontWeight: '300',
-                        fontSize: '14px'
-                    }}>
-                        <div style={{...appIconStyle, backgroundColor: tool.color}} />
-                        {tool.displayName}
-                    </Link>
-                })
-            }
-        </div> */}
+       
     </div>
   );
 };

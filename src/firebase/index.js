@@ -10,7 +10,7 @@ export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "piper-efac2.firebaseapp.com",
   projectId: "piper-efac2",
-  storageBucket: "piper-efac2.appspot.com",
+  storageBucket: "piper1-6ab4f.appspot.com",
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGE_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_AP_ID
 };

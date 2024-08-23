@@ -8,19 +8,19 @@ class Toast {
   }
 
   static warn(message) {
-    toast.warn(message, {
+    message.warning(message, {
       hideProgressBar: true,
     });
   }
 
   static success(message) {
-    toast.success(message, {
+    message.success(message, {
       hideProgressBar: true,
     });
   }
 
   static error(message) {
-    toast.error(message, {
+    message.error(message, {
       hideProgressBar: true,
     });
   }

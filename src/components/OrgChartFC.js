@@ -21,6 +21,7 @@ function OrgChartFC(props) {
           listOfDirectReports ? <>
         {employee &&  <div
         style={{ display: 'flex',
+        position: 'relative',
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
@@ -29,6 +30,9 @@ function OrgChartFC(props) {
           {/* <h2 style={{fontWeight: '300'}}>{employee.fullName.split(" ")} reports to <br/>
            {listOfDirectReports.find(x => x.email == employee.managerEmail).fullName}</h2> */}
           <EmployeeCard employee={listOfDirectReports?.find(x => x.email == employee.managerEmail)} manager={true} t={t} />
+          <div style={{width: '1px', height: '90px', backgroundColor: 'rgb(221, 222, 222)',
+              position: 'absolute', bottom: '-20px', zIndex: '9', left: 'calc(50% - 10px)'
+          }}></div>
         </div> } 
         <br/> 
         <div style={{ 
@@ -37,7 +41,7 @@ function OrgChartFC(props) {
           flexWrap: 'wrap',
           justifyContent: 'center',
           margin: '0px 30px',
-          borderTop: '1px solid ' + 'rgb(230, 230, 230)',
+          borderTop: '1px solid ' + 'rgb(225, 225, 225)',
           paddingTop: '40px'
         }}
         >

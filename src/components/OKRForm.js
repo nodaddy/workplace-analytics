@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col, Alert, Collapse, DatePicker, Tag , message} from 'antd';
 import Paragraph from 'antd/es/skeleton/Paragraph';
 import Title from 'antd/es/skeleton/Title';
-import { silverColor, white } from '../css';
+import { greyOnWhiteColor, primaryBorderRadius, silverColor, white } from '../css';
 import { postGoal } from '../services/goalService';
 import Toast from './Toast';
 import { EditOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -49,7 +49,9 @@ const OKRForm = ({state, performanceCycle, cyclePeriod, cyclePeriods, loadGoals,
       form={form}
       layout="vertical"
       onFinish={handleFinish}
-      style={{ padding: '12px 20px', backgroundColor: '#fff', borderRadius: '8px', margin: '0px', width: '50%' , height: '100%'}}
+      style={{ padding: '12px 20px',
+      border: `1px solid ${greyOnWhiteColor}`,
+      backgroundColor: '#fff', borderRadius: primaryBorderRadius, margin: '0px', width: '50%' , height: '100%'}}
     >
         <Alert icon={postingGoal ? <LoadingOutlined /> : <EditOutlined />} showIcon style={{ backgroundColor: silverColor, fontWeight: '500', borderRadius: '0px', border:'0px', padding: '7px 12px', 
     }} message={<span>Create a goal for <Tag>{ cyclePeriods.find(x => x.value == cyclePeriod).label }, {performanceCycle}</Tag></span>} type="info" />

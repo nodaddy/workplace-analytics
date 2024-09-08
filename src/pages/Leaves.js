@@ -25,7 +25,7 @@ function Leaves() {
             setLeaveApplications(res.data);
             setLoadingLeaveApplications(false);
         }).catch(() => {
-            message.error("Something went wrong while fetching leave applications");
+            console.log("Something went wrong while fetching leave applications");
             setLoadingLeaveApplications(false);
         })
     }
@@ -37,9 +37,13 @@ function Leaves() {
             setLeaveApplications(res.data);
             setLoadingLeaveApplications(false);
         }).catch(() => {
-            message.error("Something went wrong while fetching leave applications");
+            console.log("Something went wrong while fetching leave applications");
             setLoadingLeaveApplications(false);
         })
+
+        return () => {
+            saveSelectedTool(null);
+        }
     }, [])
     
     return ( <>
@@ -49,7 +53,7 @@ function Leaves() {
 
 
     
-    {loadingLeaveApplications ? <div style={{width: '38%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}><Spinner text={t('Leaves')} /></div> : 
+    {loadingLeaveApplications ? <div style={{width: '38%', display: 'flex', justifyContent: 'center', position: 'relative'}}><Spinner text={t('Leaves')} /></div> : 
     <div style={{width: '38%'}}>
         <Tabs
                 label="faf"

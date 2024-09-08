@@ -7,6 +7,7 @@ import Toast from "./Toast";
 import SelfReviewForm from "./SeflReviewForm";
 import PerformanceReviewDisplay from "./PerformanceReviewDisplay";
 import Spinner from "./Spinner";
+import { primaryColor, silverColor } from "../css";
 
 function Reviews() {
     const { state } = useAppContext();
@@ -49,7 +50,8 @@ function Reviews() {
         id="reviewSteps"
         style={{
             padding: '100px 150px',
-            margin: '0px'
+            margin: '0px',
+            backgroundColor: silverColor
         }} direction="horizontal" current={review ? review.managerReview.rating ? review.finalCommentsAfterReviewDiscussion ? 3 : 2 : 1 : 0}>
             <Steps.Step
                 title="Self-Review" 
@@ -71,6 +73,8 @@ function Reviews() {
                 description="" 
             />
         </Steps>
+
+        <br/>
         
         { loadingReview ? <Spinner height={'10vh'} /> : showCreateReviewForm ? <SelfReviewForm reviewSavedToDb={() => loadReview()} /> : <div>
           { review &&  <PerformanceReviewDisplay review={review} />}

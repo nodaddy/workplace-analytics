@@ -1,5 +1,5 @@
 import { Alert, Avatar, Card, Tooltip, message } from "antd";
-import { iconColor, infoColor, nonAntTagColor, silverColor, tagColor, white } from "../css";
+import { greyOnWhiteColor, iconColor, infoColor, nonAntTagColor, silverColor, tagColor, white } from "../css";
 import { MailFilled, MailOutlined, PhoneOutlined, ProjectOutlined, TeamOutlined } from "@ant-design/icons";
 import { useContext } from "react";
 import { OrgChartContext } from "../context/OrgChartContext";
@@ -38,15 +38,16 @@ function EmployeeCard({employee, manager, t}) {
             size="small"
             onClick={onClick}
             style={{
-              width: '300px',
+              zIndex: '99',
+              width: '260px',
               display: 'flex',
               alignItems: 'flex-start',
               marginRight: '20px',
               cursor: 'pointer',
-              paddingLeft:'10px',
+              paddingLeft: '10px',
               marginBottom: '20px',
               boxShadow: '0px',
-              paddingTop: manager ? '8px' : 'auto'
+              borderColor: greyOnWhiteColor,
             }}>
                 
               <div
@@ -57,17 +58,17 @@ function EmployeeCard({employee, manager, t}) {
               >
                 <span style={{}}>
                    <Avatar
-                   src={employee.image}
+                   src={employee.imageUrl}
         style={{
           backgroundColor: silverColor,
           color: 'grey',
           marginRight: '10px',
-          width: '33px',
-          height: '33px',
+          width: '36px',
+          height: '36px',
         }}
       >
 
-        {employee?.firstName.charAt(0) + employee?.lastName.charAt(0)}
+        { !employee.imageUrl && employee?.firstName.charAt(0) + employee?.lastName.charAt(0)}
       </Avatar>
       <br/>
 
@@ -79,9 +80,7 @@ function EmployeeCard({employee, manager, t}) {
 </span>
 
               <span>
-              
-
-                <span style={{fontSize: '18px', ...overflowCSS}}>{employee?.firstName + " " + employee?.lastName} 
+                <span style={{fontSize: '15px', ...overflowCSS}}>{employee?.firstName + " " + employee?.lastName} 
                 {manager ? <>
               <Alert style={{padding: '1px 10px', fontSize: '12px'}} message={t('description.manager')} type="warning" />
               {/* <span style={{fontSize: '11px', padding: '3px 8px', background: infoColor, color: white, borderRadius: '999px', marginBottom: '20px'}}>{t('description.manager')}
@@ -93,7 +92,7 @@ function EmployeeCard({employee, manager, t}) {
                  
                 
                 {/* <span style={{fontSize: '12px', color: 'grey', ...overflowCSS}}><MailOutlined style={iconStyle}/> {employee?.email }</span>                 */}
-                {manager ? <><br/><MailOutlined style={{...iconStyle, marginBottom: '12px'}} /> <span style={{fontSize: '12px'}}>{employee?.email }</span></> : null}
+                {/* {manager ? <><br/><MailOutlined style={{...iconStyle, marginBottom: '12px'}} /> <span style={{fontSize: '12px'}}>{employee?.email }</span></> : null} */}
               
               </span>
               </div>

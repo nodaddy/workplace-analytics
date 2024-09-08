@@ -10,7 +10,7 @@ import { getEmployeeByEmail } from "../services/employeeService";
 import Spinner from "../components/Spinner";
 import Toast from "../components/Toast";
 import ToolBanner from "../components/ToolBanner";
-import { ApartmentOutlined, EditOutlined, EditTwoTone, PrinterOutlined, PrinterTwoTone, SettingOutlined } from "@ant-design/icons";
+import { ApartmentOutlined, DeploymentUnitOutlined, EditOutlined, EditTwoTone, PrinterOutlined, PrinterTwoTone, SettingOutlined } from "@ant-design/icons";
 
 function OrgChart() {
     const {state, saveSelectedTool} = useAppContext();
@@ -35,6 +35,10 @@ function OrgChart() {
 
     useEffect(() => {
         saveSelectedTool(t('tools.organisationalChart'));
+
+        return () => {
+            saveSelectedTool(null);
+        }
     }, []);
 
     useEffect(() => {
@@ -42,7 +46,8 @@ function OrgChart() {
             getDirectReportsByEmail(state.currentEmployee?.managerEmail, state.apiToken).then(res => {
                     setListOfDirectReports(res.data);
             }).catch(()=>{
-                message.error("Something went wrong fetching the directs");
+                console.log("Something went wrong fetching the directs");
+                // message.error("Something went wrong fetching the directs");
             })
         }
     }, [state.currentEmployee]);
@@ -51,30 +56,35 @@ function OrgChart() {
         setDrawerLoadingFor(loadingFor);
         saveSelectedEmployeeWithFullInfo({
                 employeeType: null,
-                jpbTitle: null,
+                jobTitle: null,
                 firstName: null,
                 lastName: null,
                 employeeId: null,
                 location: null,
                 department: null,
                 email: null,
-                managerEmail: null
+                managerEmail: null,
+                imageUrl: null
             })
     };
 
     return ( <div id="orgchartpage">
-                <ToolBanner icon={<ApartmentOutlined />} title={t('tools.organisationalChart')} subTitle={'See organisational information'} />
+                <ToolBanner icon={<DeploymentUnitOutlined />} title={t('tools.organisationalChart')} subTitle={'See organisational information'} />
                 
-                    <div align="right" style={{margin: '0px 40px', cursor: 'pointer'}}>
-                    <Popover placement="left" content={
-                    <div style={{width: '150px'}}>
-                       <span style={{cursor: 'pointer'}}> <PrinterTwoTone />&nbsp; Print Chart </span>
+                    <div align="right" style={{margin: '0px 83px', cursor: 'pointer'}}>
+                    <Popover placement="top" content={
+                    <div style={{width: '100px'}}>
+                       <span onClick={()=>{
+                        message.warning('coming soon');
+                       }} style={{cursor: 'pointer'}}> <PrinterTwoTone />&nbsp; Print Chart </span>
                        <br/>
-                       <span style={{cursor: 'pointer'}}> <EditTwoTone />&nbsp;  Edit Chart </span>
+                       <span onClick={()=>{
+                        message.warning('coming soon');
+                       }} style={{cursor: 'pointer'}}> <EditTwoTone />&nbsp;  Edit Chart </span>
 
                     </div>
                 }>
-                      <SettingOutlined size={'large'} /> &nbsp;Options
+                      <SettingOutlined size={'large'} />  
                         </Popover>
                     </div>
               
@@ -84,13 +94,14 @@ function OrgChart() {
                 }} open={orgChartState.flyOutForEmployeeInfo}>
                     {
                         email ? <div align="center">
-                        <img src="https://picsum.photos/seed/picsum/200/300" style={{
-                            width: '100px',
-                            height: '100px',
+                        {orgChartState.selectedEmployeeWithFullInfo?.imageUrl && <img src={orgChartState.selectedEmployeeWithFullInfo?.imageUrl} style={{
+                            width: '110px',
+                            height: '110px',
                             borderRadius: '50%',
                             marginRight: '10px',
-                            border: '5px solid ' + silverColor
-                        }}></img>
+                            border: '5px solid ' + silverColor,
+                            backgroundColor: silverColor
+                        }}></img>}
                         <br/>
                         <br/>
                         <span style={{fontSize: '22px'}}>{firstName}</span>
@@ -198,7 +209,7 @@ function OrgChart() {
 
                     </div>
                     :
-                    <Spinner text={drawerLoadingFor}/>
+                    <Spinner height={'50vh'} text={drawerLoadingFor}/>
                     }       
                 </Drawer>
 <br/>

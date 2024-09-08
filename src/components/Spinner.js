@@ -1,5 +1,3 @@
-import { Spin } from "antd";
-import { t } from "i18next";
 import './spinner.css';
 
 function Spinner({text, height}) {
@@ -9,7 +7,14 @@ function Spinner({text, height}) {
         <div className="loader" />
         <br/>
         <br/>
-        {text}
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/> 
+        {/* {text} */}
         </div>
       </div>
      );

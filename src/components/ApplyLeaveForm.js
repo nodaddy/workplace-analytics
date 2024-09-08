@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, Spin, Alert , message, Upload} from 'antd';
-import { silverColor, white } from '../css';
+import { greyOnWhiteColor, primaryBorderRadius, primaryColor, silverColor, white } from '../css';
 import { t } from 'i18next';
 import { postLeaveApplication } from '../services/leaveService';
 import Toast from './Toast';
@@ -8,6 +8,7 @@ import { useAppContext } from '../context/AppContext';
 import { EditFilled, EditOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import { uploadFileToFirebaseStorage } from '../firebase/storage';
 import { leavesFolderInStorage } from '../Constants';
+import { attachmentNameForStorage } from '../utility';
 const { Option } = Select;
 
 const ApplyLeaveForm = ({reloadApplications}) => {
@@ -51,8 +52,8 @@ const ApplyLeaveForm = ({reloadApplications}) => {
   };
 
   return (
-    <div style={{width: '47%', height: '100%'}}>
-    <Alert icon={leaveApplicationResponseLoading ? <LoadingOutlined /> : <EditOutlined />} style={{ backgroundColor: silverColor, fontWeight: '500', border: '10px solid white', borderRadius: '8px 8px 0px 0px', padding: '7px 12px', 
+    <div style={{width: '47%', height: '100%', border: `1px solid ${greyOnWhiteColor}`, borderRadius: primaryBorderRadius}}>
+    <Alert icon={leaveApplicationResponseLoading ? <LoadingOutlined /> : <EditOutlined style={{color: primaryColor}} />} style={{ backgroundColor: silverColor, fontWeight: '500', border: '10px solid white', borderRadius: '8px 8px 0px 0px', padding: '7px 12px', 
     }} message={<h4 style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',  
             fontWeight: '300',
@@ -73,7 +74,7 @@ const ApplyLeaveForm = ({reloadApplications}) => {
 
         let attachmentUrl = null;
 
-        const attachmentName = e.attachment[0].originFileObj.name + state.currentEmployee.id + Date.now();
+        const attachmentName = attachmentNameForStorage(e.attachment[0].originFileObj.name, state.currentEmployee.id, Date.now());
 
         await uploadFileToFirebaseStorage(e.attachment[0].originFileObj, leavesFolderInStorage, attachmentName).then((res) => {
             attachmentUrl = res.url;
@@ -210,7 +211,7 @@ const ApplyLeaveForm = ({reloadApplications}) => {
       </Form.Item>
     </Form>
     <Button
-        style={{position: 'absolute', marginTop: '-80px', marginLeft: '110px'}}
+        style={{position: 'absolute', marginTop: '-76px', marginLeft: '110px'}}
         type="secondary" onClick={(e) => {
             e.preventDefault();
             console.log('sss');

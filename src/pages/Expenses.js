@@ -4,7 +4,7 @@ import ToolBanner from "../components/ToolBanner";
 import { CheckCircleOutlined, CloseCircleOutlined, DownloadOutlined, FileDoneOutlined, Loading3QuartersOutlined, PlusOutlined, WarningOutlined } from "@ant-design/icons";
 import { Button, Card, Collapse, Drawer, List, Spin, Table, Tabs, message } from "antd";
 import { useEffect, useState } from "react";
-import { errorColor, successColor } from "../css";
+import { errorColor, infoColor, primaryTextColor, successColor } from "../css";
 import { getExpensesByEmployeeIdAndCompanyId } from "../services/expenseService";
 import { useAppContext } from "../context/AppContext";
 import Spinner from "../components/Spinner";
@@ -13,7 +13,7 @@ function Expenses() {
     const [expenseFormFlyOut, setExpenseFormFlyOut] = useState(false);
     const [loadingExpenses, setLoadingExpenses] = useState(false);
     const [expenses, setExpenses] = useState([]);
-    const {state} = useAppContext();
+    const {state, saveSelectedTool} = useAppContext();
 
     const [expensesForTable, setExpensesForTable] = useState([]);
 
@@ -45,6 +45,13 @@ function Expenses() {
           }
       ];
 
+    useEffect(() => {
+        saveSelectedTool('Expenses');
+        return () => {
+            saveSelectedTool(null);
+        }
+    }, [])
+
     const loadExpenses = () => {
         setLoadingExpenses(true);
         getExpensesByEmployeeIdAndCompanyId(state.apiToken).then(res => {
@@ -57,8 +64,8 @@ function Expenses() {
                     category: exp.category,
                     description: exp.description,
                     status: exp.status,
-                    attachment: <a href={exp.attachment} target="_blank" download={'file.jpeg'}>
-                                    <DownloadOutlined /> Download
+                    attachment: <a style={{color: infoColor}} href={exp.attachment} target="_blank" download={'file.jpeg'}>
+                                    <DownloadOutlined /> &nbsp; Download
                                 </a>
                 }
             )));
@@ -66,7 +73,7 @@ function Expenses() {
         }).catch(() => {
             setLoadingExpenses(false);
             setExpenses([]);
-            message.error("Something went wrong while fetching expenses");
+            console.log("Something went wrong while fetching expenses");
         })
     }
 
@@ -86,9 +93,11 @@ function Expenses() {
             <br/>
             <br/>
             <br/>
-            <h2 style={{
-                marginBottom: '5px'
-            }}>List of Submitted Items</h2>
+            <h3 style={{
+                marginBottom: '5px',
+                fontWeight: '400',
+                color: primaryTextColor
+            }}>List of Submitted Items</h3>
             <Tabs
             style={{}}
                 label="faf"
@@ -99,19 +108,19 @@ function Expenses() {
                     label: 'Pending',
                     key: '1',
                     icon: <WarningOutlined style={{color: 'orange'}} />,
-                    children: <Table pagination={{pageSize: 9}} columns={columns} dataSource={expensesForTable?.filter(exp => exp.status == 0)} />
+                    children: <Table size="small" pagination={{pageSize: 9}} columns={columns} dataSource={expensesForTable?.filter(exp => exp.status == 0)} />
                 },
                 {
                     label: 'Approved',
                     key: '2',
                     icon: <CheckCircleOutlined style={{color: successColor}} />, 
-                    children: <Table pagination={{pageSize: 9}} columns={columns} dataSource={expensesForTable?.filter(exp => exp.status == 1)} />
+                    children: <Table size="small" pagination={{pageSize: 9}} columns={columns} dataSource={expensesForTable?.filter(exp => exp.status == 1)} />
                 },
                 {
-                    label: <span style={{color: 'grey'}}>Rejected</span>,
+                    label: 'Rejected',
                     key: '3',
                     icon: <CloseCircleOutlined style={{color: errorColor}}/>,
-                    children: <Table pagination={{pageSize: 9}} columns={columns} dataSource={expensesForTable?.filter(exp => exp.status == -1)} />
+                    children: <Table size="small" pagination={{pageSize: 9}} columns={columns} dataSource={expensesForTable?.filter(exp => exp.status == -1)} />
 
                 }
                 // {

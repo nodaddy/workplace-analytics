@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-import { silverColor, white } from "../css";
+import { primaryColor, primaryTextColor, silverColor, white } from "../css";
 import BackButton from "./BackButton";
 import './SideBar.css';
 import { useEffect, useState } from "react";
@@ -11,14 +11,13 @@ function SideBar() {
     const {state, saveSelectedTool} = useAppContext();
     const [tools, setTools] = useState([]);
 
-    const [sidebarOpen, setSidebarOpen] = useState(true);
-
     useEffect(() => {
-        if(state.isAdmin != null){
-            var tools = state.isAdmin ? state.adminTools : state.tools;
-            setTools(tools);
+        if(state.isAdmin != null && state.tools != null) {
+            // alert('s');
+            var toolss = state.isAdmin ? state.adminTools : state.tools;
+            setTools(toolss);
         }
-    }, [state.isAdmin]);
+    }, [state.isAdmin, state.tools]);
 
     return ( 
         <div
@@ -28,14 +27,15 @@ function SideBar() {
             alignItems: 'center',
             transition: 'width 0.5s',
             right: '0px',
-            width: sidebarOpen ? '100vw' : '50px',
+            width: '50px',
             // width: '15vw',
             // position: 'fixed',
             // left: '0px',
             // height: '100vh',
             zIndex: 9999,
             // border: '2px solid ' + silverColor,
-            backgroundColor: white
+            backgroundColor: white,
+            color: primaryColor
         }}>
         {true ? <Link to={'/'}>
         {/* <div align="center"><img src="https://cdn.pixabay.com/photo/2016/12/17/15/50/logo-1913689_1280.png" style={{
@@ -46,25 +46,27 @@ function SideBar() {
         :<BackButton />
         }
           
-           <span style={{
+           {/* <span style={{
                         textDecoration: 'none',
                         fontSize: '13px',
                         borderRadius: '5px',
-                        margin: '15px 0px',
+                        marginLeft: '20px',
                         cursor: 'pointer',
                         fontWeight: '200',
-                        padding: '10px 20px'
-                    }}>Tools <CaretRightFilled /> </span>
+                        padding: '10px 20px',
+                        backgroundColor: primaryColor,
+                        color: white
+                    }}>Tools <CaretRightFilled /> </span> */}
         {
-            state.isAdmin == null && <span style={{
+            (state.isAdmin == null || state.tools == null) && <span style={{
                 textDecoration: 'none',
                 fontSize: '13px',
                 borderRadius: '5px',
                 margin: '15px 0px',
                 cursor: 'pointer',
                 fontWeight: '200',
-                padding: '10px 0px'
-            }}><Loading3QuartersOutlined spin style={{color: 'black'}}/></span>
+                padding: '10px 0px',
+            }}><Loading3QuartersOutlined spin style={{color: 'black', marginLeft: '20px'}}/></span>
         }
         {
             tools?.map((tool) => {
@@ -79,16 +81,44 @@ function SideBar() {
                     className="sidebar-menu-item"
                     style={{
                         textDecoration: 'none',
-                        fontSize: '13px',
-                        borderRadius: '5px',
-                        margin: '15px 5px',
+                        fontSize: '14px',
+                        // borderRadius: '5px',
+                        margin: '15px 20px',
                         cursor: 'pointer',
-                        color: 'black',
+                        color: state.selectedTool == tool.displayName ?  primaryColor : primaryTextColor,
                         fontWeight: '200',
-                        padding: '10px 20px',
-                        textWrap: 'nowrap', overflow: 'auto', textOverflow: 'ellipsis', display: 'block',
-                        backgroundColor: state.selectedTool == tool.displayName ? silverColor : silverColor,
-                        border: state.selectedTool == tool.displayName ?  '1px solid ' + '#E0E0E0' : '1px solid ' + white
+                        padding: '10px 1px',
+                        textWrap: 'nowrap', textOverflow: 'ellipsis', display: 'block',
+                        borderBottom: state.selectedTool == tool.displayName ?  '1px solid ' + primaryColor : '1px solid ' + white
+                    }}>
+                        {tool.displayName}
+                    </Link>
+                    // </Tooltip>
+                )
+            })
+        }
+        {
+            state.isAdmin && state.adminTools?.map((tool) => {
+                return (
+                // <Tooltip title={tool.displayName}>
+                <Link
+                    to={`/${tool.displayName.toLocaleLowerCase().split(" ").join("")}`}
+                    onClick={() => {
+                        saveSelectedTool(tool.displayName);
+                       // setSidebarOpen(false);
+                    }}
+                    className="sidebar-menu-item"
+                    style={{
+                        textDecoration: 'none',
+                        fontSize: '14px',
+                        // borderRadius: '5px',
+                        margin: '15px 20px',
+                        cursor: 'pointer',
+                        color: state.selectedTool == tool.displayName ?  primaryColor : primaryTextColor,
+                        fontWeight: '200',
+                        padding: '10px 1px',
+                        textWrap: 'nowrap', textOverflow: 'ellipsis', display: 'block',
+                        borderBottom: state.selectedTool == tool.displayName ?  '1px solid ' + primaryColor : '1px solid ' + white
                     }}>
                         {tool.displayName}
                     </Link>
@@ -101,18 +131,18 @@ function SideBar() {
         {state.isAdmin ? <Link 
         onClick={()=>{
             localStorage.removeItem('companyhris');
+            window.location.reload();
         }}
          align="center"
         style={{
                         textDecoration: 'none',
-                        display: 'inline-block',
-                        fontSize: '15px',
+                        fontSize: '14px',
                         margin: '0px',
                         cursor: 'pointer',
                         color: 'black',
                         fontWeight: '200',
                         padding: '15px 20px',
-                        textWrap: 'nowrap', overflow: 'auto', textOverflow: 'ellipsis'
+                        textWrap: 'nowrap', overflow: 'auto'
                     }} to="/companyprofile">New Registration</Link> : null}
         </div>
      );

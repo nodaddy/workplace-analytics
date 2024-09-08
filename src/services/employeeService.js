@@ -12,6 +12,18 @@ import axiosInstance from "../axiosInstance";
     })
   };
 
+  const updateEmployeeProfile = async (employeeEmail, data, apiToken) => {
+    return axiosInstance.post(`${BASE_URL}/api/employees/updateemployeeprofile`, {
+      employeeEmail: employeeEmail,
+      data: data
+    }, {
+        headers: {
+            "Authorization": `Bearer ${apiToken}`,
+            "Content-Type": "application/json"
+        }
+    })
+  };
+
   const updateMultipleEmployeesWithSameData = async (employees, data, apiToken) => {
     console.log(employees);
     return axiosInstance.post(`${BASE_URL}/api/employees/updatemultipleemployeesRoles`, {
@@ -41,5 +53,6 @@ import axiosInstance from "../axiosInstance";
 export {
   getEmployeeByEmail,
   postEmployeesInbulk,
-  updateMultipleEmployeesWithSameData
+  updateMultipleEmployeesWithSameData,
+  updateEmployeeProfile
 }

@@ -71,11 +71,17 @@ function CareerAndPerformance() {
 
     const {saveSelectedTool} = useAppContext();
     useEffect(() => {
-        saveSelectedTool('Career & Performance');
             if(performanceCycle && cyclePeriod) {
                loadGoals();
         }
     }, [performanceCycle, cyclePeriod]);
+
+    useEffect(() => {
+      saveSelectedTool('Career & Performance');
+      return () => {
+        saveSelectedTool(null);
+    }
+    }, []);
 
     const loadGoals = () => {
         setLoadingGoals(true);

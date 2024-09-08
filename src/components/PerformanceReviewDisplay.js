@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Row, Col, Typography, Rate, Divider } from 'antd';
-import { infoColor } from '../css';
+import { infoColor, secondaryColor } from '../css';
 
 const { Title, Text } = Typography;
 
@@ -12,13 +12,12 @@ const PerformanceReviewDisplay = ({ review }) => {
       title={<span style={{ fontWeight: '500' }}>{`Performance Review - ${performanceCycle} (${cyclePeriod.toUpperCase()})`}</span>}
       bordered={false}
       style={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}
-      bodyStyle={{ padding: '24px' }}
     >
       <Row gutter={[32, 32]}>
         <Col span={12}>
-          <Title level={4} style={{ color: infoColor, fontWeight: '600' }}>Self Review</Title>
+          <Title level={4} style={{ fontWeight: '600' }}>Self Review</Title>
           <div>
-            <Rate disabled defaultValue={selfReview.rating} style={{ marginTop: 4, color: '#1890ff' }} />
+            <Rate disabled defaultValue={selfReview.rating} style={{ marginTop: 4, color: infoColor }} />
           </div>
           <Divider />
           <div>
@@ -44,9 +43,9 @@ const PerformanceReviewDisplay = ({ review }) => {
 
 
         <Col span={12} align="right">
-          <Title level={4} style={{ color: infoColor, fontWeight: '600' }}>Manager Review</Title>
+          <Title level={4} style={{ fontWeight: '600' }}>Manager Review</Title>
           <div>
-            <Rate disabled defaultValue={managerReview.rating || 0} style={{ marginTop: 4, color: '#fa8c16' }} />
+            <Rate disabled defaultValue={managerReview.rating || 0} style={{ marginTop: 4, color: infoColor }} />
           </div>
           <Divider />
           <div>

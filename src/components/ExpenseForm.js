@@ -4,6 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { postExpense } from '../services/expenseService';
 import { useAppContext } from '../context/AppContext';
 import { uploadFileToFirebaseStorage } from '../firebase/storage';
+import { attachmentNameForStorage } from '../utility';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -20,7 +21,7 @@ const ExpenseForm = ({expenseItemCreated, setExpenseFormFlyOut}) => {
 
     let attachmentUrl = null;
 
-    const attachmentName = values.attachment[0].originFileObj.name + state.currentEmployee.id + Date.now();
+    const attachmentName = attachmentNameForStorage(values.attachment[0].originFileObj.name, state.currentEmployee.id, Date.now());
 
     await uploadFileToFirebaseStorage(values.attachment[0].originFileObj, 'expenses', attachmentName).then((res) => {
         attachmentUrl = res.url;

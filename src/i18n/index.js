@@ -40,7 +40,7 @@ i18n
             leaves: 'Leaves'
           },
           auth: {
-            loginAgain: 'Kindly login again'
+            loginAgain: 'Session expired! Kindly login again.'
           }
         }
       },

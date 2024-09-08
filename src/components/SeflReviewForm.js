@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Rate, Tooltip, Alert , message} from 'antd';
-import { infoColor, silverColor } from '../css';
+import { greyOnWhiteColor, infoColor, primaryColor, silverColor } from '../css';
 import { EditOutlined, InfoCircleFilled } from '@ant-design/icons';
 import { postReview } from '../services/reviewService';
 import { useAppContext } from '../context/AppContext';
@@ -36,7 +36,9 @@ const SelfReviewForm = ({reviewSavedToDb}) => {
   return (
     <Form
     disabled={postReviewResponseLoading}
-    style={{ margin: 'auto', padding: '12px 20px', backgroundColor: '#fff', borderRadius: '8px', width: '50%' , height: '100%'}}
+    style={{ margin: 'auto', 
+    border: `1px solid ${greyOnWhiteColor}`,
+    padding: '12px 20px', backgroundColor: '#fff', borderRadius: '8px', width: '50%' , height: '100%'}}
 
       form={form}
       layout="vertical"
@@ -49,7 +51,7 @@ const SelfReviewForm = ({reviewSavedToDb}) => {
         comments: '',
       }}
     >
-        <Alert icon={<EditOutlined />} showIcon style={{ backgroundColor: silverColor, fontWeight: '500', borderRadius: '0px', border:'0px', padding: '7px 12px', 
+        <Alert icon={<EditOutlined style={{color: primaryColor}} />} showIcon style={{ backgroundColor: silverColor, fontWeight: '500', borderRadius: '0px', border:'0px', padding: '7px 12px', 
     }} message={<span style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}><span>Self Review</span><span style={{color: infoColor, cursor: 'pointer', fontWeight:'400'}}><InfoCircleFilled /> Quick guide for self review</span></span>} type="info" />
 
     <br/>

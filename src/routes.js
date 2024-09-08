@@ -13,21 +13,64 @@ import Navigationbar from './components/NavigationBar';
 import Leaves from './pages/Leaves';
 import CareerAndPerformance from './pages/CareerAndPerformance';
 import Expenses from './pages/Expenses';
+import EmployeeProfile from './pages/EmployeeProfile';
+import LandingPage from './pages/LandingPage';
+import Requests from './pages/Requests';
 
 const AppRoutes = () => {
 
    const {state} = useAppContext();
-   const { apiToken, user } = state;
+   const { apiToken, tools } = state;
+
+   const displayOrientation = () => {
+    if(window.innerWidth < 768){
+        return "vertical";
+    } else {
+        return "horizontal";
+    }
+   }
+
+   // apply lazy loading for mobile pages and desktop pages etc.
   
-    return (
-    <Router>
+    return (displayOrientation() === "vertical" ?
+    <>
+        <Router basename='/'>
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+            </Routes>
+        </Router>
+
+        <Router basename='/hris'>
+        {
+            apiToken ? <>
+            <Navigationbar />
+            
+            <Routes>
+                <Route path="/" element={<Home/>} />
+                <Route path="/about" element={<div style={{color: 'black'}}>About</div>} />
+                <Route path="/organisationalchart" element={<OrgChartProvider><OrgChart/></OrgChartProvider>} />
+                <Route path="/profile/:id" element={<EmployeeProfile />} />
+                <Route path="/requests" element={<Requests />} />
+            </Routes>
+            </> 
+            :
+            <Routes basename='/hris'>
+                <Route path="/*" element={<Auth/>} />
+            </Routes>
+        }
+        
+    </Router>
+    </>
+    :
+    <>
+    <Router basename='/hris'>
         {
             apiToken ? <>
             <Navigationbar />
             <SideBar />
-
+            
             <Routes>
-                <Route exact path="/" element={<Home/>} />
+                <Route path="/" element={<Home/>} />
                 <Route path="/about" element={<div style={{color: 'black'}}>About</div>} />
                 <Route path="/organisationalchart" element={<OrgChartProvider><OrgChart/></OrgChartProvider>} />
                 <Route path="/leaves" element={<Leaves />} />
@@ -36,13 +79,25 @@ const AppRoutes = () => {
                 <Route path="/assignroles" element={<AddRoles/>} />
                 <Route path="/career&performance" element={<CareerAndPerformance />} />
                 <Route path="/expenses" element={<Expenses />} />
-            </Routes></> :
-            <Routes>
+                <Route path="/profile/:id" element={<EmployeeProfile />} />
+                <Route path="/requests" element={<Requests />} />
+            </Routes>
+            </> 
+            :
+            <Routes basename='/hris'>
                 <Route path="/*" element={<Auth/>} />
             </Routes>
         }
         
     </Router>
+    
+
+    <Router basename='/'>
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+            </Routes>
+    </Router>
+    </>
   );
 };
 

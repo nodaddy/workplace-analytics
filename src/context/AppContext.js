@@ -11,27 +11,28 @@ const AppProvider = ({ children }) => {
       performanceCycle: null,
       cyclePeriod: null,
     },
+    requestsForManager: null,
     isAdmin: null,
     theme: 'light',
     apiToken: sessionStorage.getItem(API_TOKEN_KEY),
     currentEmployee: null,
-    tools: [
+    company: null,
+    complementaryTools: [
       {
-          displayName: 'Organisational Chart',
-          color: 'orange'
+        displayName: 'Organisational Chart',
       },
       {
           displayName: 'Leaves',
-          color: '#4285F4'
-      },
-      {
-          displayName: 'Career & Performance',
-          color: '#F4B400'
-      },
-      {
-          displayName: 'Expenses',
-          color: 'skyblue'
-      },
+      }
+         
+      //  {
+      //      displayName: 'Career & Performance',
+      //      color: '#F4B400'
+      //  },
+      // {
+      //     displayName: 'Expenses',
+      //     color: 'skyblue'
+      // },
       // {
       //   displayName: 'Payroll',
       //   color: 'skyblue'
@@ -41,6 +42,7 @@ const AppProvider = ({ children }) => {
       //     color: '#DB4437'
       // }
     ],
+    tools: null,
     adminTools: [
       {
           displayName: 'Company Profile',
@@ -60,11 +62,19 @@ const AppProvider = ({ children }) => {
     // Add other global states here
   });
 
+  const saveRequestsForManager = (requests) => {
+    setState((prev) => {return { ...prev, requestsForManager: requests}});
+  }
+
   const saveCareerAndPerformanceState = (careerAndPerformance) => {
     setState((prev) => {return { ...prev, careerAndPerformance: careerAndPerformance}});
   };
 
-  const saveCurrentUser = (currentEmployee) => {
+  const saveCompanyAndAddOnTools = (company) => {
+    setState((prev) => {return { ...prev, company: company, tools: [...state.complementaryTools, ...company.addOnTools.map(tool => ({displayName: tool}))]}});
+  };
+
+  const saveCurrentEmployee = (currentEmployee) => {
     console.log(currentEmployee);
     const isAdmin = currentEmployee.email.includes(ADMIN_EMAIL_SUBSTRING);
 
@@ -107,7 +117,17 @@ const AppProvider = ({ children }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ state, login, logout, toggleTheme, saveCurrentUser, saveSelectedTool, saveCareerAndPerformanceState }}>
+    <AppContext.Provider value={{ 
+      state, 
+      login, 
+      logout,
+      toggleTheme,
+      saveCurrentEmployee,
+      saveSelectedTool,
+      saveCareerAndPerformanceState,
+      saveCompanyAndAddOnTools,
+      saveRequestsForManager
+    }}>
       {children}
     </AppContext.Provider>
   );
